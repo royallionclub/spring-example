@@ -10,13 +10,6 @@
         <constructor-arg value="John Cena"/>
     </bean>
 
-    <bean id="consoleEventLogger" class="ConsoleEventLogger"/>
-    <bean id="fileEventLogger" class="FileEventLogger">
-        <constructor-arg value="‪C:\Users\admin\Desktop\log.txt"/>
-    </bean>
-
-    <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateInstance"/>
-
     <bean id="event" class="Event" scope="prototype">
         <constructor-arg>
             <bean class="java.util.Date"/>
@@ -24,9 +17,25 @@
         <constructor-arg ref="dateFormat"/>
     </bean>
 
-    <bean id="app" class="App">
+    <bean id="consoleEventLogger" class="ConsoleEventLogger"/>
+
+    <bean id="fileEventLogger" class="FileEventLogger" init-method="init">
+        <constructor-arg value="‪target/events_log.txt"/>
+    </bean>
+
+    <!--<bean id="cacheFileEventLogger" class="CacheFileEventLogger">-->
+        <!--<constructor-arg value="5"/>-->
+    <!--</bean>-->
+
+    <bean id="dateFormat" class="java.text.DateFormat" factory-method="getDateTimeInstance">
+        <constructor-arg value="0"/>
+        <constructor-arg value="3"/>
+    </bean>
+
+    <bean id="app" class="App" scope="prototype">
         <constructor-arg ref="client"/>
         <constructor-arg ref="consoleEventLogger"/>
+        <constructor-arg ref="event"/>
     </bean>
 
 </beans>
